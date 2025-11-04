@@ -1,11 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IARVR Blog</title>
+    <title>IARVR Blog - VR Locomotion Project</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/blogStyles.css">
+
 </head>
+
 <body>
-    Hello
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#home">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="home">
+            <div class="hero-section">
+                <h1>VR Locomotion Innovation</h1>
+                <p>
+                    Welcome to my blog for the Interaction in Virtual and Augmented Reality course. Here I document my
+                    journey creating a unique locomotion system for virtual reality using Unity. Follow along as I share
+                    challenges, solutions, and insights from developing cutting-edge VR interactions.
+                </p>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog">
+            <h2 style="color: var(--color-primary); margin-bottom: 2rem; font-weight: bold;">Blog Posts</h2>
+
+            <div class="blog-listing">
+                <h2>Lorem Ipsum</h2>
+                <div class="date">Month DD, YYYY</div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                    et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea
+                    ea commodo consequat.
+                </p>
+                <a href="./blog1">Read More</a>
+            </div>
+
+
+            <!-- <div class="blog-listing">
+                <h2>Lorem Ipsum</h2>
+                <div class="date">Month DD, YYYY</div>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et 
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+                    ea commodo consequat. 
+                </p>
+                <a href="./blog1">Read More</a>
+            </div> -->
+
+
+        </section>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

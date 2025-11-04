@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Idea - IARVR Blog</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/blogStyles.css">
+    <style>
+        /* Additional blog page styles */
+        .blog-hero {
+            background-color: var(--element-bg);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+        }
+
+        .blog-hero h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-hero .date {
+            color: var(--color-primary);
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .blog-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: var(--color-primary);
+        }
+
+        .blog-content h2 {
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--element-bg);
+            padding-bottom: 0.5rem;
+        }
+
+        .blog-content h3 {
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .blog-content p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .content-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 8px rgba(39, 70, 94, 0.15);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            opacity: 0.7;
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .grid-item {
+            background-color: var(--element-2-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--element-bg);
+        }
+
+        .grid-item h4 {
+            color: var(--color-primary);
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .grid-item p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--cta-bg);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-top: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: var(--element-bg);
+            color: var(--color-primary);
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="/index.html">
+                <img src="/logo.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html#blog">Back to Posts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Blog Hero -->
+        <section class="blog-hero">
+            <h1>The Idea</h1>
+            <div class="date">February 27, 2023</div>
+        </section>
+
+        <!-- Blog Content -->
+        <section class="blog-content">
+            <!-- Introduction Section -->
+            <h2>Project Overview</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et 
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex 
+                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+                nulla pariatur.
+            </p>
+
+            <img src="/sportify.png" alt="Project Overview" class="content-image">
+            <div class="image-caption">Figure 1: Initial project concept visualization</div>
+
+            <!-- Main Content with Grid -->
+            <h2>Key Concepts</h2>
+            <p>
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+            </p>
+
+            <div class="content-grid">
+                <div class="grid-item">
+                    <h4>Locomotion Design</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore 
+                        et dolore magna aliqua.
+                    </p>
+                </div>
+                <div class="grid-item">
+                    <h4>Interaction Mechanics</h4>
+                    <p>
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                        consequat.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subsection 1 -->
+            <h2>Development Process</h2>
+            <h3>Phase 1: Conceptualization</h3>
+            <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
+                magna aliqua.
+            </p>
+
+            <img src="/sportify.png" alt="Development Phase 1" class="content-image">
+            <div class="image-caption">Figure 2: Conceptual design mockup</div>
+
+            <!-- Subsection 2 -->
+            <h3>Phase 2: Implementation</h3>
+            <p>
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+
+            <!-- Two Column Content Section -->
+            <div class="row" style="margin: 3rem 0;">
+                <div class="col-md-6">
+                    <img src="/sportify.png" alt="Implementation Details" class="content-image" style="margin-top: 0;">
+                    <div class="image-caption">Figure 3: Implementation in progress</div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Technical Challenges</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore 
+                        et dolore magna aliqua.
+                    </p>
+                    <p>
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Subsection 3 -->
+            <h3>Phase 3: Testing & Refinement</h3>
+            <p>
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. 
+                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem 
+                aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            </p>
+
+            <!-- Conclusion Section -->
+            <h2>Conclusion</h2>
+            <p>
+                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores 
+                eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, 
+                consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam 
+                quaerat voluptatem.
+            </p>
+
+            <!-- Back Button -->
+            <a href="/index.html#blog" class="back-button">← Back to Blog Posts</a>
+        </section>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

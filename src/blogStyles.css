@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;700&display=swap");
+
+:root {
+    --bg-primary: #d0e67a;
+    --color-primary: #27465e;
+    --cta-bg: #ffffff;
+    --element-bg: #c4dd5e;
+    --element-2-bg: #e4e4e2;
+}
+
+* {
+    font-family: Prompt, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--color-primary);
+    padding-top: 70px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--bg-primary);
+    border-bottom: solid 2px var(--color-primary);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--color-primary) !important;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--color-primary) !important;
+    font-weight: 500;
+    margin-left: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--cta-bg) !important;
+    background-color: var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--element-bg);
+    padding: 4rem 2rem;
+    border-radius: 8px;
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Blog Listing */
+.blog-listing {
+    background-color: var(--element-2-bg);
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 5px solid var(--element-bg);
+}
+
+.blog-listing:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(39, 70, 94, 0.2);
+}
+
+.blog-listing h2 {
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.blog-listing .date {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.blog-listing p {
+    color: var(--color-primary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.blog-listing a {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--cta-bg);
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.blog-listing a:hover {
+    background-color: var(--element-bg);
+    color: var(--color-primary);
+    transform: translateX(5px);
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+}
+
+/* Spacing */
+section {
+    margin: 2rem 0;
+}

@@ -8,12 +8,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Prompt:wght@200;400;700&display=swap");
 
 /*
-1 bg:#d0e67a t1:#213341 cta:#46AD8D
-2 bg:#2F4858 t1:#d0e67a t2:#000000 cta::#46AD8D
+1 bg:var(--bg-primary);
+2 bg:#2F4858 t1:var(--bg-primary);
 */
 
 * {
   font-family: Prompt, sans-serif;
+}
+
+:root {
+  --bg-primary: #d0e67a;
+  --color-primary: #27465e;
+  --cta-bg: #ffffff;
+  --element-bg: #c4dd5e;
+  --element-2-bg: #e4e4e2;
 }
 
 h1 {
@@ -31,11 +39,12 @@ body {
 /* NAV */
 
 nav {
-  background-color: #d0e67ac9;
+  background-color: var(--bg-primary);
+  border-bottom: solid 2px var(--color-primary);
 }
 
 .nav-link {
-  color: #27465e !important;
+  color: var(--color-primary) !important;
   font-weight: 700;
 }
 
@@ -53,7 +62,7 @@ nav {
   height: 100vh;
   width: 100vw;
   z-index: 15;
-  background-color: #d0e67a;
+  background-color: var(--bg-primary);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -117,10 +126,10 @@ nav {
 }
 
 .ctabtn {
-  background-color: #ffffff;
+  background-color: var(--cta-bg);
   border-style: solid;
   border-color: #2f4858;
-  color: #27465e;
+  color: var(--color-primary);
   margin-top: 10px !important;
   font-weight: 400;
 }
@@ -131,7 +140,7 @@ nav {
 
 .ctabtn:active {
   outline: 0ch;
-  background-color: #e4e4e2 !important;
+  background-color: var(--element-2-bg) !important;
 }
 
 .btn:focus,
@@ -165,7 +174,7 @@ nav {
 }
 
 .skill {
-  background-color: #e4e4e2;
+  background-color: var(--element-2-bg);
   display: inline-block;
   padding: 5px 10px;
   border-radius: 10px;
@@ -195,7 +204,7 @@ nav {
 
 .abouttxt {
   margin-bottom: 10px;
-  color: #e4e4e2;
+  color: var(--element-2-bg);
 }
 
 .txt {
@@ -217,7 +226,7 @@ nav {
   z-index: 1;
   outline: 0;
   border-color: #2f4858;
-  background-color: #c4dd5e;
+  background-color: var(--element-bg);
   text-align: center;
 }
 
@@ -285,7 +294,7 @@ nav {
 }
 
 .filmhead {
-  color: #d0e67a;
+  color: var(--bg-primary);
   text-align: center;
   padding-top: 10vh;
 }
@@ -305,7 +314,7 @@ nav {
   width: 100%;
   border-style: solid;
   border-width: 5px;
-  border-color: #d0e67a;
+  border-color: var(--bg-primary);
   border-radius: 5px;
 }
 
@@ -315,7 +324,7 @@ nav {
 }
 
 .chead {
-  color: #d0e67a;
+  color: var(--bg-primary);
 }
 
 .carousel-control-prev,
@@ -326,7 +335,7 @@ nav {
 }
 
 .cinfo {
-  color: #e4e4e2;
+  color: var(--element-2-bg);
   font-weight: 200;
 }
 
@@ -347,7 +356,7 @@ nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  color: #e4e4e2;
+  color: var(--element-2-bg);
   margin-top: 30px;
 }
 
@@ -406,7 +415,7 @@ h2 {
 }
 
 .form-control {
-  border-color: #27465e;
+  border-color: var(--color-primary);
   border-width: 2px;
   background-color: #00000000;
 }
@@ -418,36 +427,36 @@ h2 {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
   opacity: 1;
 }
 
 .form-control::-moz-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
   opacity: 1;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
   opacity: 1;
 }
 
 .form-control::-ms-input-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
   opacity: 1;
 }
 
 .form-control::placeholder {
-  color: #27465e;
+  color: var(--color-primary);
   opacity: 1;
 }
 
 :-ms-input-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
 }
 
 ::-ms-input-placeholder {
-  color: #27465e;
+  color: var(--color-primary);
 }
 
 /* MEDIA QUERIES */
@@ -456,76 +465,94 @@ h2 {
   .card {
     margin-bottom: 30px !important;
   }
+
   .h-100 {
     height: -webkit-fit-content !important;
     height: -moz-fit-content !important;
     height: fit-content !important;
   }
 }
+
 @media screen and (max-width: 767px) {
   .hey {
     margin-top: 80px;
   }
+
   .active {
     text-decoration: none;
   }
+
   .imgcont {
     display: none;
   }
+
   .wrap {
     margin-bottom: 40px !important;
   }
+
   .heroimg {
     width: 40vw;
     height: unset;
   }
+
   nav {
-    background-color: #d0e67ae0;
+    background-color: var(--bg-primary);
   }
 
 
   h1 {
     text-align: center;
   }
+
   .skillwrap {
     text-align: center;
   }
+
   .mrow {
     display: inline;
   }
+
   .mrow p {
     margin-bottom: 0px;
   }
+
   .company-logo {
     text-align: center;
     margin-bottom: 10px;
     padding-top: 20px;
     border-width: 2px 0 0 0;
-    border-color: #d0e67a;
+    border-color: var(--bg-primary);
     border-style: solid;
   }
-  .company-logo img{
+
+  .company-logo img {
     width: 150px;
   }
+
   .mtext {
     position: initial;
     text-align: center;
     margin: 0;
   }
-  .mtext ul{
+
+  .mtext ul {
     text-align: start;
     margin-bottom: 2em;
   }
+
   .mtext .btn {
     position: initial;
   }
+
   .noborder {
     border-width: 0px !important;
     border: none;
   }
+
   #cform button {
     position: initial;
   }
+
   #cform {
     text-align: center;
   }
@@ -541,11 +568,11 @@ h2 {
 }
 
 .colorgreen {
-  color: #d0e67a;
+  color: var(--bg-primary);
 }
 
 .colorgrey {
-  color: #e4e4e2;
+  color: var(--element-2-bg);
 }
 
 .pb-30 {
@@ -565,13 +592,13 @@ section * {
 }
 
 /*
-1 bg:#d0e67a t1:#213341 cta:#46AD8D
-2 bg:#2F4858 t1:#d0e67a t2:#000000 cta::#46AD8D
+1 bg:var(--bg-primary);
+2 bg:#2F4858 t1:var(--bg-primary);
 */
 
 .bglime {
-  background-color: #d0e67a;
-  color: #27465e;
+  background-color: var(--bg-primary);
+  color: var(--color-primary);
 }
 
 .bggrayblue {
@@ -580,7 +607,7 @@ section * {
 }
 
 .colorlime {
-  color: #d0e67a;
+  color: var(--bg-primary);
 }
 
 /* SCROLL BAR */
@@ -590,11 +617,11 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background-color: #27465e;
+  background-color: var(--color-primary);
 }
 
 html::-webkit-scrollbar-thumb {
-  background: #d0e67a;
+  background: var(--bg-primary);
   border-radius: 25px;
   outline: #000000;
   border: 2px solid black;
@@ -606,8 +633,9 @@ html::-webkit-scrollbar-thumb {
   text-align: left;
   padding: 15px;
 }
+
 .card-tag {
-  background-color: #e4e4e2;
+  background-color: var(--element-2-bg);
   display: inline-block;
   padding: 5px 7px;
   border-radius: 10px;
