@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating the Map - VR Dev Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" crossorigin href="/assets/blogStyles-CI3tNiaM.css">
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-justify">
+
+        <!-- Page Header -->
+        <div class="blog-post-header">
+            <h1>Locomotion System</h1>
+        </div>
+
+        <!-- Orbit Controls -->
+        <div class="blog-post-section">
+            <h2>Orbit Controls</h2>
+            <div class="row gx-0 gx-md-4 align-items-center">
+                <div class="col-md-7">
+                    <p>
+                        The player orbits around the cue ball to line up a shot. A script on the XR Origin updates
+                        its position every frame based on the ball's world position and two orbital parameters:
+                        angle and radius. A calculated height offset is applied from the center of the ball so that
+                        everyone sits
+                        at the same vertical position relative to the ball regardless of their real-world height,
+                        giving a uniform experience across players.
+                    </p>
+                    <p>
+                        The right joystick controls the orbit. Up and down adjust the distance to the ball, left
+                        and right rotate around it in the plane parallel to the ground. A deadzone on the joystick
+                        input prevents both axes from activating simultaneously, keeping the controls deliberate.
+                    </p>
+                </div>
+                <div class="col-md-5 d-flex flex-column justify-content-center">
+                    <img src="/assets/Orbit-4EamEP6G.png" alt="Orbit controls diagram" class="mt-md-0">
+                    <p class="img-caption">Orbit Controls</p>
+                </div>
+            </div>
+
+            <p>
+                Only the XR Origin is locked to the ball. The player can still look around freely by
+                moving their head, and physical movement in the real world carries over into the scene.
+                Locking this out entirely would have felt unnatural.
+            </p>
+        </div>
+
+        <!-- Anchor Mode -->
+        <div class="blog-post-section">
+            <h2>Anchor Mode</h2>
+            <div class="row gx-0 gx-md-4 align-items-center">
+                <div class="col-md-7">
+                    <p>
+                        Anchor mode captures the last known position of the anchor hand and holds it fixed. The cue
+                        continues to point from the striking hand toward that frozen point, so the stroke stays on a
+                        consistent line regardless of where the anchor hand drifts afterward. This turns the shot into a
+                        guided linear stroke rather than a freehand swing, making aiming significantly more stable. The
+                        idea was directly inspired by how other VR pool titles handle shot setup.
+                    </p>
+                    <p>
+
+                        Activating anchor mode also enables the cue's collider, which is kept off at all other times to
+                        prevent accidental ball contact while the player is positioning their hands. Anchor mode only
+                        activates when the grip button on the anchor hand is pressed and the tip of the cue is outside
+                        the ball at that moment.
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <video autoplay loop muted playsinline class="w-100">
+                        <source src="/assets/Anchor-Be0W4mCG.mp4" type="video/mp4">
+                    </video>
+                    <p class="img-caption">Anchor Mode</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Strike -->
+        <div class="blog-post-section">
+            <h2>Striking the Ball</h2>
+            <p>
+                With anchor mode active, the player moves their striking hand back and forth to drive the cue
+                through the anchor point and into the ball. On contact, force is applied to the ball based on
+                the cue's velocity at the moment of impact, and anchor mode is immediately disabled.
+            </p>
+
+            <pre class="code-block"><span class="kw">void</span> <span class="fn">OnCollisionEnter</span>(<span class="type">Collision</span> collision)
+{
+    <span class="kw">if</span> (!collision.gameObject.<span class="fn">CompareTag</span>(<span class="str">"CueBall"</span>)) <span class="kw">return</span>;
+
+    <span class="type">Rigidbody</span> ballRb = collision.rigidbody;
+
+    <span class="kw">if</span> (ballRb != <span class="kw">null</span> && collision.contactCount > 0 && !hasStruckThisAnchor)
+    {
+        hasStruckThisAnchor = <span class="kw">true</span>;
+        <span class="type">Vector3</span> stickVelocity = manager.calculatedStickVelocity;
+        <span class="type">Vector3</span> forceVector = stickVelocity.normalized * (stickVelocity.magnitude * strikeMultiplier);
+        ballRb.<span class="fn">AddForce</span>(forceVector, <span class="type">ForceMode</span>.VelocityChange);
+        manager.<span class="fn">PlayStrikeSound</span>();
+    }
+}</pre>
+
+            <p>
+                Getting the collision right took more debugging than expected. With <code>Is Trigger</code> enabled,
+                the event fires but no contact geometry is passed. With it disabled, Unity's physics engine treats
+                the collision as a standard dynamic interaction and automatically transfers momentum from the cue
+                to the ball, causing it to move even without any scripted force.
+            </p>
+            <p>
+                The fix was to make the cue's Rigidbody <strong>kinematic</strong>. A kinematic body is still fully
+                tracked by the physics system and continues to fire <code>OnCollisionEnter</code>, but the engine
+                no longer applies automatic impulses from it onto other dynamic bodies. The ball's movement becomes
+                purely script-driven, giving precise control over exactly how much force is applied and when.
+            </p>
+            <p>
+                After the shot, the ball slows gradually through friction from the felt surface physics material.
+                Pressing <strong>Y</strong> zeroes the ball's velocity immediately if the player does not want
+                to wait it out.
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link">&#8592; Back to Blog Posts</a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
+</html>

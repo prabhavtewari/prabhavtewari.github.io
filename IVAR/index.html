@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IARVR Blog - VR Locomotion Project</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" crossorigin href="/assets/blogStyles-CI3tNiaM.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="home">
+            <div class="hero-section">
+                <h1>Cue Shift</h1>
+                <p class="text-justify">
+                    This is not my first VR project, but it is the one with the most creative freedom. For a course at
+                    my university, I am building a custom locomotion and interaction system in Unity. The goal is to
+                    avoid the obvious answers. Teleportation? Too straightforward. Grabbing objects with your hands?
+                    Every VR
+                    tutorial covers that. The course demands something different, so the aim is to rethink two things
+                    from scratch: how the player moves through the world, and how they interact with objects in it.
+
+                </p>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="text-justify">
+            <h2 style="color: var(--color-primary); margin-bottom: 2rem; font-weight: bold;">Blog Posts</h2>
+
+
+            <div class="blog-listing">
+                <h2>Motivation and Ideation</h2>
+                <p class="text-justify">
+                    A description of the project requirements, how a mobile game became the inspiration for this
+                    project, and the ideation process that
+                    led to the final concept.
+                </p>
+                <a href="./motivation">Read More</a>
+            </div>
+
+
+            <div class="blog-listing">
+                <h2>Modifying the Map</h2>
+                <p>
+                    Adapting a parkour map template to fit the pool theme, figuring out how to use a game engine as a
+                    3D modeling tool and restricting the player to the playable area.
+                </p>
+                <a href="./map">Read More</a>
+            </div>
+            <div class="blog-listing">
+                <h2>The Cue Stick</h2>
+                <p>
+                    Spawning a cue stick in the scene, implementing a two-handed grip system with a focus on accessibility.
+                </p>
+                <a href="./cue">Read More</a>
+            </div>
+            <div class="blog-listing">
+                <h2>Locomotion System</h2>
+                <p>
+                    Constructing the locomotion system, by allowing the player to orbit around the ball, setting up a shot and striking.
+                </p>
+                <a href="./locomotion">Read More</a>
+            </div>
+            <div class="blog-listing">
+                <h2>Interaction System</h2>
+                <p>
+                    Creating an interaction system that allows the player to manipulate an object's position and
+                    rotation by using the cue stick.
+                </p>
+                <a href="./interaction">Read More</a>
+            </div>
+            <div class="blog-listing">
+                <h2>Playthrough, User Testing and Feedback</h2>
+                <p>
+                    A complete playthrough of the final experience, along with scores from other users who tested it and their feedback.
+                </p>
+                <a href="./playthrough">Read More</a>
+            </div>
+            <div class="blog-listing">
+                <h2>Closing Thoughts and AI Disclosure</h2>
+                <p>
+                    A retrospective on the course and the role of AI in its development of this project.
+                </p>
+                <a href="./closing">Read More</a>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
