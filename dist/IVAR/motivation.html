@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivation & Ideation - VR Dev Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" crossorigin href="/assets/blogStyles-CI3tNiaM.css">
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-justify">
+
+        <!-- Page Header -->
+        <div class="blog-post-header">
+            <h1>Motivation and Ideation</h1>
+        </div>
+
+        <!-- Ideation Section -->
+        <div class="blog-post-section">
+            <h2>Problem Statement</h2>
+            <h3>Locomotion</h3>
+            <p>
+                Design a new way to move through the scene and look around, going further than the teleportation and
+                smooth locomotion that most VR experiences fall back on.
+
+            </p>
+            <h3>Interaction</h3>
+            <p>
+                Give the player full control over an object's position and orientation in 3D space, using something more
+                inventive than a standard grab.
+            </p>
+
+        </div>
+        <div class="blog-post-section">
+            <h2>Finding the Idea</h2>
+            <p>
+                Every project starts somewhere, and this one took a few wrong turns before it clicked. Early on, I
+                explored ideas like a wizard locomotion system, drawing spells in the air with a wand to propel yourself
+                through a scene, and an Iron Man style flight mechanic. Both felt promising at first, but had been done
+                before. After attending the first few lectures, there was a clear emphasis on choosing ideas that were
+                genuinely novel.
+
+            </p>
+            <p>
+                The real spark came from an unlikely place, a mobile game I'd been completely hooked on at the time, <a
+                    href="https://play.google.com/store/apps/details?id=com.miniclip.eightballpool&hl=en-US"
+                    target="_blank">8 Ball Pool by Miniclip</a>. The core mechanic of lining up a cue, reading the
+                angles, and sending a ball across the table felt like it had potential as a VR locomotion concept. What
+                if the player was the cue ball? Line up a shot, hit it, and travel across the scene.
+            </p>
+
+            <img src="/assets/8BallPool-CETeaeDT.jpg" alt="8 Ball Pool by Miniclip">
+            <p class="img-caption">8 Ball Pool by Miniclip</p>
+
+            <p>
+                During the initial lectures, projects of students who took the course in prior years were showcased.
+                Inspired by a miniature-world concept mentioned in one of these lectures, my first instinct was to give
+                the player a small 3D model of the parkour map. They'd line up and hit a shot on this miniature version,
+                and their full-scale avatar would travel accordingly, essentially
+                using the mini table as a movement controller. It was a fun idea, but it added a layer of abstraction
+                that felt unnecessarily complex.
+            </p>
+        </div>
+
+        <!-- Locomotion Section -->
+        <div class="blog-post-section">
+            <h2>Locomotion Design</h2>
+            <p>
+                After sitting with the miniature table idea for a while, I decided to drop it due to the complexity that
+                comes with having an abstraction layer. Instead, the player
+                simply orbits
+                around their own cue ball in real space and takes a shot directly, just you, the
+                cue, and the ball in front of you. Anyone who's played a VR pool game will find this immediately
+                familiar.
+            </p>
+            <p>
+                To get a better picture of the concept, I played a few VR pool titles and landed on
+                <a href="https://www.meta.com/en-gb/experiences/black-hole-pool/3692779304142039/"
+                    target="_blank"><strong>Black Hole Pool</strong></a>. It is a polished, well-thought-out VR pool
+                experience. It became the primary reference point for
+                how the locomotion mechanic should feel: intuitive cue handling, intuitive shot setup, and
+                responsive ball physics.
+            </p>
+
+            <img src="/assets/BlackHolePool-SMZYYJ8R.webp" alt="Black Hole Pool on Meta Quest">
+            <p class="img-caption">Black Hole Pool (Meta Quest)</p>
+        </div>
+
+        <!-- Interaction Section -->
+        <div class="blog-post-section" id="interaction-iterations">
+            <h2>Interaction Design</h2>
+            <p>
+                The interaction system went through three distinct iterations before landing on a final approach.
+                Each one revealed a new problem that pushed the design forward.
+            </p>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 1</span>
+                <h3>The Setter / Rack Idea</h3>
+                <p>
+                    The first concept was inspired by the triangle rack used at the start of a pool game. The idea was
+                    to have the player fill the rack by placing different balls into it, a satisfying and tactile setup
+                    action. The problem? It wasn't novel. At its core, it just meant the player grabs balls with their
+                    hands, which is about as standard as VR interaction gets. Scrapped.
+                </p>
+            </div>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 2</span>
+                <h3>Suction Cup</h3>
+                <p>
+                    The second iteration tried to keep the pool theme alive while doing something more interesting. A
+                    <strong>grab mode</strong> would attach a suction cup to the tip of the cue stick, allowing the
+                    player to pick up
+                    and carry a ball using the stick itself. Translation worked by moving the stick, and rotation was
+                    handled by harnessing the two-handed system used to grab the stick. In theory, simple. In practice,
+                    controlling object rotation using the stick tip's translation and orientation derived from the two
+                    hands proved to be finicky and restrictive.
+                </p>
+            </div>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 3</span>
+                <h3>Grab Field</h3>
+                <p>
+                    The final approach refined the grab mode and deliberately stepped back from strict pool theming
+                    in favour of something that actually works well. Rather than a suction cup, the tip of the cue
+                    emits a <strong>grab field</strong>, a zone that locks a nearby object onto the stick. Rotation
+                    is split across two input methods: rotating the stick itself handles one axis, while the controller
+                    joystick covers the remaining two. Translation is still handled by moving the stick with your hands.
+                    The result is a system that gives the player precise, comfortable control over both position and
+                    orientation.
+                </p>
+            </div>
+
+            <img src="/assets/Interaction%20Ideation-CVEruJmz.png" class="full-height" alt="Interaction Ideation ">
+            <p class="img-caption">Iterations of Interaction</p>
+
+        </div>
+
+        <a href="index.html" class="back-link">&#8592; Back to Blog Posts</a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

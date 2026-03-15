@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating the Map - VR Dev Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/styles/blogStyles.css">
+</head>
+
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-justify">
+
+        <!-- Page Header -->
+        <div class="blog-post-header">
+            <h1>Interaction System</h1>
+        </div>
+
+        <!-- Grab Field Section -->
+        <div class="blog-post-section">
+            <h2>The Grab Field</h2>
+            <p>
+                After a few <a href="/IVAR/motivation#interaction-iterations">iterations</a>, the interaction system
+                landed on a
+                <strong>grab field</strong>. It deviates slightly from the pool theme, but it is a fair
+                tradeoff given how the alternatives performed in practice. The field is tied to a predefined
+                attach point on the cue prefab and is visualised as a set of sci-fi style concentric rings
+                hovering over the tip of the cue.
+            </p>
+
+            <img src="/public/IVAR/GrabField.png" alt="Cue stick with grab field active, showing attach point">
+            <p class="img-caption">Grab Field Visual</p>
+
+            <p>
+                The player holds <strong>B</strong> to activate grab mode. Once active, a trigger event fires
+                when the attach point overlaps with any object. The colliding object is checked against the
+                interaction task target, and if it matches, it is reparented to the cue at the attach point
+                transform. Tapping <strong>B</strong> again releases the object, removing it from the cue's
+                transform hierarchy and applying a short cooldown to prevent it from being immediately
+                picked up again.
+            </p>
+            <p>
+                To avoid unintended attachments, the trigger is filtered by direction. The object only attaches
+                if it lies in front of the attach point at the moment of contact, checked using a dot product
+                between the attach point's forward vector and the direction to the object. A negative or zero
+                result is ignored.
+            </p>
+        </div>
+
+        <!-- Translation Section -->
+        <div class="blog-post-section">
+            <h2>Translation</h2>
+            <p>
+                Since the attached object is reparented to the cue, translation comes for free. The cue already
+                moves through 3D space driven by the two-handed grip system, so the object follows without any
+                additional logic needed.
+            </p>
+        </div>
+
+        <!-- Rotation Section -->
+        <div class="blog-post-section">
+            <h2>Rotation</h2>
+            <div class="row gx-0 gx-md-4 align-items-center">
+                <div class="col-md-7">
+                    <p>
+                        Rotation is split across three axes, each handled differently. The first axis is the
+                        roll of the cue itself. As shown in <code>UpdateStickPosition</code>, the cue's roll
+                        is driven by the striking hand's up direction, projected onto the plane perpendicular
+                        to the stick. Rolling the controller therefore rolls the cue, and because the object
+                        is parented to it, the object rolls with it.
+                    </p>
+                    <p>
+                        The remaining two axes are mapped directly to the left joystick. Left and
+                        right on the joystick rotate the object in yaw, while up and down control pitch. Roll is
+                        excluded here, as it is already determined by the striking hand's up direction projected onto
+                        the plane perpendicular to the stick. A deadzone is applied along with an axis priority
+                        threshold, so that only the dominant axis drives rotation at any given moment, preventing
+                        diagonal drift and keeping rotations deliberate.
+                    </p>
+                </div>
+                <div class="col-md-5">
+                    <video autoplay loop muted playsinline style="width: 100%; max-height: 320px; object-fit: contain;">
+                        <source src="/public/IVAR/Interaction.mp4" type="video/mp4">
+                    </video>
+                    <p class="img-caption">Object Rotation
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-link">&#8592; Back to Blog Posts</a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

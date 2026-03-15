@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating the Map - VR Dev Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/styles/blogStyles.css">
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-justify">
+
+        <!-- Page Header -->
+        <div class="blog-post-header">
+            <h1>Modifying the Map</h1>
+        </div>
+
+        <div class="blog-post-section">
+            <h2>Starting Point</h2>
+            <p> The course provides a template Unity project that serves as a base to build on. It implements a
+                Superman-esque flying locomotion with basic grab interaction. The scene contains a map built from square
+                tiles arranged in a grid, using prefabs for road tiles that form the parkour you have to navigate. </p>
+            <p> The goal was to modify this map to fit the pool theme, not just aesthetically but functionally. The
+                roads have very shallow curbs and no railings for a ball to rebound off. There is a railing in parts of
+                the map, but only on the bridge prefab that spans the middle section. For the pool mechanics to work,
+                proper railings along both sides of every road section were needed. </p>
+            <img src="/public/IVAR/Starting Point.png" alt="8 Ball Pool by Miniclip">
+            <p class="img-caption">Template Project</p>
+
+        </div>
+
+        <!-- Approaches Section -->
+        <div class="blog-post-section">
+            <h2>Building the Railings</h2>
+            <p>
+                Three approaches were tried before arriving at a solution that was both functional and visually
+                acceptable. Each one exposed a different constraint.
+            </p>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 1</span>
+                <h3>Modifying the Prefab Geometry in Blender</h3>
+                <p>
+                    The most direct solution would have been to modify the existing road mesh of the road tile directly
+                    in Blender. With no prior Blender experience, this was attempted anyway. After spending a few hours
+                    trying to understand the toolset and navigate the existing mesh, it became clear that the skill
+                    level required was far beyond what could be picked up quickly. Abandoned.
+                </p>
+            </div>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 2</span>
+                <h3>Cubes on Prefabs</h3>
+                <p>
+                    Since the road is made of prefabs, the idea was to attach simple cubes within unity, to both sides
+                    of
+                    each road prefab and scale them to span the length of the tile. With careful placement, this
+                    produced a decent-looking railing on straight road
+                    sections. The problem surfaced with the other prefab types: inclining roads, declining roads,
+                    and curved roads all needed their own treatment.
+                    Curved roads in particular were a serious obstacle. The curves are smooth, not sharp, meaning
+                    a large number of cubes would be needed to approximate a curved railing without it looking
+                    jagged. That ruled out cubes as a general solution.
+                </p>
+            </div>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 2a</span>
+                <h3>Splines for Railings of Curved Roads</h3>
+                <p>
+                    Unity's spline tool can be used to generate curved geometry directly inside the editor, which
+                    is exactly what was needed for the curved prefabs. Spline-based railings were created for each
+                    curved road tile and the results were usable. However, a persistent problem remained: noticeable
+                    discontinuities appeared at the seams where splines from one tile met the cubes or splines of
+                    the adjacent tile. After spending many hours trying to align the railings smoothly at these
+                    junctions, the result was never clean enough.
+                </p>
+                <p>
+                    The seam alignment issue was the deciding factor in moving on. Matching endpoints precisely across
+                    independently placed prefabs was too fragile to be practical at any scale.
+                </p>
+                <img src="/public/IVAR/Map Iteration 2 .png" alt="8 Ball Pool by Miniclip">
+                <p class="img-caption">Discontinuities at Spline Junctions</p>
+
+            </div>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 3</span>
+                <h3>Custom Road Built Entirely with Splines</h3>
+                <p>
+                    Rather than retrofitting railings onto existing prefabs, the entire road layout was rebuilt using
+                    splines. The initial hope was to scale the road spline radially to produce a railing offset, but
+                    spline scaling does not behave radially and introduced deviations from the intended path. Instead,
+                    the outer and inner edges of the newly created road were traced manually to form the railing
+                    geometry. This gave full control over the shape at every point and eliminated the seam problem
+                    entirely. Unity is a game engine, not a 3D modelling tool, but for this use case its spline system
+                    proved more than capable.
+                </p>
+                <img src="/public/IVAR/Map Iteration 3.png" alt="8 Ball Pool by Miniclip">
+                <p class="img-caption">Map Created With Splines</p>
+
+            </div>
+        </div>
+
+
+        <div class="blog-post-section">
+            <h2>Map Layout</h2>
+            <p>
+                The template project came with a locomotion technique that was quite fast-paced. The pool
+                locomotion is slower by comparison, which made the original map feel too lengthy to navigate
+                comfortably.
+            </p>
+            <p>
+                The map produced from Iteration 3 was built before the pool locomotion was fully implemented.
+                Once the final locomotion system was in place and playtested, it confirmed the map needed to
+                be shorter. The layout was revised and shortened into a more compact course.
+            </p>
+            <div class="container">
+                <div class="row gx-md-4">
+                    <div class="col-md-6 ps-0">
+                        <img src="/public/IVAR/Map Longer.png" alt="Longer Layout">
+                        <p class="img-caption">Longer Map</p>
+                    </div>
+
+                    <div class="col-md-6 pe-0">
+                        <img src="/public/IVAR/Map Shorter.png" alt="Shorter Layout">
+                        <p class="img-caption">Shorter Map</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="blog-post-section">
+            <h2>Texture and Physics</h2>
+            <p>
+                With the geometry in place, a pool table felt texture was sourced from
+                <a href="https://www.texturecan.com/details/527/" target="_blank">TextureCan</a>
+                and applied across the map surface. This gave the road the green baize look needed to
+                complete the pool table aesthetic.
+            </p>
+            <p>
+                The physics properties of the map play an important role in how the ball rebounds and rolls.
+                Separate physics materials were assigned to the base surface and the railings, each tuned to
+                produce the right amount of friction and bounciness for the pool mechanic to feel right.
+            </p>
+            <img src="/public/IVAR/Map Textured.png" alt="Shorter Layout">
+            <p class="img-caption">Map With Felt Texture</p>
+        </div>
+
+        <div class="blog-post-section">
+            <h2>Out of Bounds</h2>
+            <p>
+                If the ball falls off the track, it needs to trigger an out-of-bounds event and respawn at
+                the last valid position. Two approaches were tried.
+            </p>
+
+            <div class="iteration-block">
+                <span class="iteration-label">Iteration 1</span>
+                <h3>Spline Mesh Trigger</h3>
+                <p>
+                    The railing spline mesh is duplicated and shifted upward to create a grill structure.
+                    The top is then capped with a duplicate of the base spline, forming an enclosed volume intended to
+                    act as a trigger collider. However, Unity's convex mesh collider is limited to fewer than 255
+                    triangles, a PhysX constraint that applies whenever Is Convex is enabled, which is required for any
+                    mesh to act as a trigger. The grill mesh is far too complex for this simplification,
+                    and the resulting collider deviated enough from the actual track geometry to make out-of-bounds
+                    detection unreliable. Abandoned.
+                </p>
+                <img src="/public/IVAR/Map OOB 1.png" alt="Shorter Layout">
+                <p class="img-caption">Boundary Definition With Splines</p>
+            </div>
+
+            <div class="iteration-block container">
+                <div class="row align-items-center ">
+                    <div class="col-md-6">
+                        <span class="iteration-label">Iteration 2</span>
+                        <h3>Sphere and Plane</h3>
+                        <p>
+                            The second approach used two simple primitives instead of the mesh. A quad hovers slightly
+                            above the floor of the scene, covering all space outside the parkour track. A sphere
+                            encloses
+                            the entire playable area to catch cases where the ball flies completely off the map.
+                            Together,
+                            the quad and sphere form a playable hemisphere region. Both are set as triggers with their
+                            renderers disabled so they remain invisible during play.
+                        </p>
+                    </div>
+                    <div class="col-md-6 h-100 flex-column align-items-center">
+                        <img src="/public/IVAR/Map OOB 2.png" alt="Shorter Layout">
+                        <p class="mb-md-0 img-caption">Boundary Definition With Simpler Geometry</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <a href="index.html" class="back-link">&#8592; Back to Blog Posts</a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

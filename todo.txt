@@ -1,0 +1,4 @@
+Use the same bootstrap files in the blog page
+Move bootstrap to npm?
+remove gsap anim
+update hero img

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating the Map - VR Dev Journal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/src/styles/blogStyles.css">
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-md navbar-light" aria-label="Main navigation">
+        <div class="container d-flex align-items-end">
+            <a class="navbar-brand" href="#home">
+                <img src="/logo-dark.png" alt="Logo" width="40" height="40">
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbars4"
+                aria-controls="navbars4" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbars4">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/IVAR">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container text-justify">
+
+        <!-- Page Header -->
+        <div class="blog-post-header">
+            <h1>The Cue Stick</h1>
+        </div>
+
+        <!-- Setup Section -->
+        <div class="blog-post-section">
+            <h2>Setup</h2>
+            <p>
+                With the player in position to take a shot, they need a stick to hit with. A stick prefab was created
+                using a 3D asset sourced from
+                <a href="https://www.cgtrader.com/designers/robertbarnett?utm_source=credit&utm_source=credit_item_page"
+                    target="_blank">CGTrader</a>.
+                Spawning it is straightforward with a standard Unity <code>Instantiate</code> call.
+            </p>
+
+            <img src="/public/IVAR/cue.jpg"
+                alt="source: https://img-new.cgtrader.com/items/2810406/1c05e4f653/pool-cue-stick-3d-model-obj-fbx-stl-blend.jpg">
+            <p class="img-caption">The cue stick model (<a
+                    href="https://img-new.cgtrader.com/items/2810406/1c05e4f653/pool-cue-stick-3d-model-obj-fbx-stl-blend.jpg"
+                    target="_blank">Source</a>)</p>
+        </div>
+
+        <!-- Two-Handed Grip Section -->
+        <div class="blog-post-section">
+            <h2>Two-Handed Grip</h2>
+            <p>
+                The stick is a two-handed object. The <strong>striking hand</strong> is the dominant hand and grabs the
+                base of the stick at a predefined grip point. The
+                <strong>anchor hand</strong> acts as a directional reference. The stick always points from the striking
+                hand toward the
+                anchor hand's position, and the anchor hand is free to move up and down to adjust the stick's angle.
+            </p>
+            <p>
+                To prevent the stick from spinning freely around its own axis, the striking hand's up direction is
+                projected onto the plane perpendicular to the stick direction and used as a stable roll reference.
+                This gives the stick a clean, predictable orientation that responds naturally to how the player
+                holds the controller.
+            </p>
+
+            <pre class="code-block"><span class="kw">void</span> <span class="fn">UpdateStickPosition</span>()
+{   
+    <span class="kw">if</span> (activeStick == <span class="kw">null</span> || currentState == StickState.Inactive) 
+        <span class="kw">return</span>; 
+    
+    <span class="type">Vector3</span> effectiveAnchorPosition = isAnchorModeActive ? frozenAnchorPosition : anchorHand.position;    
+    <span class="type">Vector3</span> stickDirection = (effectiveAnchorPosition - strikingHand.position).normalized;    
+    
+    <span class="cm">// Rotate the stick based on the striking hand's orientation. Used to control the roll of attached object</span>    
+    <span class="type">Quaternion</span> handRotation = strikingHand.rotation;  
+    <span class="type">Vector3</span> handUp = handRotation * <span class="type">Vector3</span>.up; 
+    <span class="type">Vector3</span> stickUp = <span class="type">Vector3</span>.<span class="fn">ProjectOnPlane</span>(handUp, stickDirection).normalized;    
+    
+    activeStick.transform.rotation = (stickUp != <span class="type">Vector3</span>.zero)    
+        ? <span class="type">Quaternion</span>.<span class="fn">LookRotation</span>(stickDirection, stickUp)    
+        : <span class="type">Quaternion</span>.<span class="fn">LookRotation</span>(stickDirection);    
+    
+    <span class="cm">// grabPoint is a predefined Transform near the base of the stick prefab</span>    
+    <span class="type">Vector3</span> grabPointOffset = activeStick.transform.rotation * grabPoint.localPosition;   
+    activeStick.transform.position = strikingHand.position - grabPointOffset;   
+}</pre>
+        </div>
+
+        <!-- Handedness Section -->
+        <div class="blog-post-section">
+            <h2>Dominant Hand</h2>
+            <p>
+                The initial plan was to support right-handed players only. After discussions in the lectures around
+                accessibility and player comfort, it became clear that giving the user control over their dominant
+                hand is important. The final system supports both.
+            </p>
+            <p>
+                Pressing <strong>A</strong> spawns the stick with the right hand as the striking hand.
+                Pressing <strong>X</strong> spawns it with the left. Pressing the same button again despawns the stick.
+                Pressing the opposite button while the stick is active swaps the striking hand without despawning,
+                letting the player switch on the fly.
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link">&#8592; Back to Blog Posts</a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
