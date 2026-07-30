@@ -1,0 +1,83 @@
+intro --------------------
+
+Me and a team of 3 course mates take on the challenge of creating a versatile mission visulisation application in collaboration with members of the Europen Space Agency. Tis is how we went From evaluating opensource projects to delivering a functional digital twin.
+
+Kick- off and initial requirements. -------------------
+
+This project was made for the Serious Games Project course I took at TU Darmstadt. during the first lecture we were given an extensie list of projects from various fields. The topics ranged from 2D RPG games amied at learning to Particle systems  using low level APIs. While scrolling through the topics one one them uniquely stood out. The topic was labelled " Real-Time 3D Visualization & Digital Twin Integration" and had a brief  description about how 
+
+<Summarise the following description and fit it into the unfinshed sentence above . Importonat to convey the that the initil description was quite limited
+Existing tools are often mission specific and not XR-capable
+Development of a cross-platform solution for 3D-Visualization and Digital Twin Integration → Improvement of Situational Awareness for spaceflight operations
+Integration of real-time and archive data (z. B. Orbit, Attitude)
+Support for VR/AR/Desktop
+Visualization of Satellites, Ground Stations, Subsystems, Thermal Effects, etc.
+>
+. This was also the only topic int he portfolio not completey managed by th Serious Games Group at the university who were offering the course. This project was in collaboration with people from ESA, making the topic even more interesting to me. 
+
+
+I quickly found a group of coursemates who were also up for the challenge and teamed up with them. amongst the 4 of us we had a good mix of expertise with som of us having worked on space applications, XR or digital twins in the past.
+
+The initial requirements set out were quite limited and we didn't get a good grasp of what was expected until we had a few discussion with our mentors at ESA. After the first few meetings there was a braod understandin of  what we need to achieve but there were still many intricaies that came as ad hoc addition later during the project, the broad temes we wored on were
+
+- Identify an exisiting open source project or create a solar system simulator that can support the other requirmeents
+- Users should be able to import staelliets and goruond into the scene with custom 3d models. 
+- USer should be able to import scenarios (satelliets + ground stations) and visualise their communication paths
+- Entities in the scene should Integrate different data formats for real-time and archived data.
+- Support multi-user interactions and collaborative scenarios.
+- Able to run on low end Hardawre
+- Xr support
+
+Few important thing to note about this setup are that we were not under any contract with ESA. Meaning  <insert some sort of short legal disclaimer here that i am not legally affialiad to them or operation under any offical apacity>. this also meant we did not have access to sensitive ESA data or their resources. While these limtation were a bit frustraint <use a better word than that>, This wored out for wonderfully since this meant we had to work with publically available data formats and with adaptability in mind. Making our work higly generic.
+
+it is also worthy to note that there was a clear division of labour of the outst. We had quickly realised that we 4 need to collaborate efficiently to maxisise ourcoverage of the requirements. I took ownersip of the Multiuser, realtime data and Xr parts of the projects. We obviously were not completely tied  down to these but in general each of us had our own area defined.
+
+
+Evaluating OSS Options
+
+The first question we tackled was wether we were going to spend the better part of our time creating a solar system simulator or use an open source project and add to it. While at first the choice seems obvious we still did our due diligence. We discussed the possibility or starting from scratch and the challenges it would entail. After realising the effort and time that would be needed in creating such an app we decided to use a pre existing solar system sim https://www.cosmos.esa.int/web/spice/cosmographiaulator and build on top of that.
+
+We evaluated exisiting projects like celestia (https://celestiaproject.space/) , cosmogrpahia (https://www.cosmos.esa.int/web/spice/cosmographia) and a few other apps. We finally landed on Ivoyager (https://www.ivoyager.dev/). A highly extensible, modular palentarium app built in Godot. This was a promising pick because of the low system requirements of godot apps.
+
+THis app provided us with a good starting point. It had a well modelled accurate solar system. We spent some time looking around the code base and finalised this as our base for the project.
+
+Real time data integration
+
+The project required a realtime data pipeline. While my team mates worked of facilitating dynamic imports of satellites into the scene. I worked paralley to create a system to display the relevant data in a UI panel. To achieve this I leverage the MQTT CLient plug in <ask me for the url of the plugin here if i dont not give a url then dont generate a response and cite this tag>. The plugin provides a simple interface to create and manage MQTT connections. I setup a mosquito broker locally for development. after some tinkeing around i was able to setup at client and display incoming MQTT messages on a Ui panel.
+
+Our mentors at ESA recommended usin SimOps <link simOps by esa git project here>. this si a simulation tool used for traingns at ESA. It comes equipped with a light weight simulator and a web frontend. the project uses MQTT to coomunicate sythetic data from the simulator to the frontend. By subscribing to the topic used by the frontend i was able to get the SimOps data into our Godot project. SInce we wanted to create a generic solution and not soming mission specifi, a configuration json file was used to allow the user to define which topics the godot app should listen to and how to handle the data on each of those topics.
+
+
+When the dynamic scenario imports were working, I integrated functionality such at selecting a satellite described in the mqtt configuration json would display a UI panel which provided flexible JSON addressing, ie the user could access multiple deeply nested json objects and arrays using a  <insert technically correct format name here from the eample in the next part> sting like foo.bar[123]. this was done since incoming payloads can be quite large and not all data points need to be displayed, allowing the user to pick and choose which data points formt eh mqtt payload are worth shoing. The user can also set colour to high certain data points. The suer also has the ability to define weter the simulation in godo should match the timestamp from the incoming mqtt message or not. THey can define a tolerance and the path to the timefield similar to the json paths above. 
+
+
+API Connectivty
+
+PLannign and solving issues is not normally a one person job. There are usually teams of specialist looking at issue at the same time. THe demand was to create a way from multiple users to control the simulation. THis was achieved by adding a REST API to the godot app. using the HTTP Server plugin <ask me for the url of the plugin here if i dont not give a url then dont generate a response and cite this tag> I was able to setup a basic server that could be accessed by anyone on the sam network as the person running the simulation. THe following functionalites were added to the rest api. 
+
+
+/list to get a list of all the enteies in the scene, parametierused by type. moon-planets-stars etc
+/focus to brin an object into view. uses the name of the object from list endpoint
+/time to speed up or slow down the godot visualisation, to set the direction of time (supports reversal), pause unpase or set an arbitrary time stamp (supporting variable precison eg year only down to full date time)
+/load to load in a spacecraft, groundstation or scenario (.adoc files )
+ 
+
+VR
+
+Even thoug i voyager is highly extensible it is built with PC us in mind. This [psoses quite some challenges when porting to VR. For the Scope of this project we decided to aim for a very basic VR experience, not a completey polished VR app. The fact that godot 4 natively support VR was a great help, it meant we didn't need to fiddle around with different plugins. Using the default functionality and a starte kit getting a vr rig in the scene was very straight forward. THe challenges stared when navigation and movement. 
+
+I voyager makes extensice use of a monocular camera, dynamically setting camera intrinsics to match the scale of the object being view and supporting effiectn rending of 2d geometry to mark orbits. It also directly manipulates camera extinsics (position and rotation) to move the player around the scene. this whoel,system falls apart in a <fact check if the vr rig is really setreospci withing the godo editor or if its a runtime process on the vr headset> stereoscopic vr setup. Extensive work was dont to alter the code handin camera parmamter to facilitate movement arond the scene suong the exiting selection mechanism. Additionally vr contrlle joysticks were mapped to obbut controls.
+
+
+A basic UI was also made as a base create a world space UI for vr. THe older ui is screen space in the 2d version.
+
+Unfortunately dueto the timeline of the project the VR work had to be depriorited in favour of other features. But this did provide a solid basis on wich the next group of students could expand upon. 
+
+Summary
+<gemerate a summary here>
+
+
+
+
+
+
